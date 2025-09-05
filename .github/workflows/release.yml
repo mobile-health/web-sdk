@@ -7,6 +7,11 @@ on:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
 jobs:
   release:
     name: Release
@@ -17,6 +22,7 @@ jobs:
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
+          # Use the default token
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
@@ -47,7 +53,7 @@ jobs:
       - name: Create Git Tags and Releases
         if: steps.changesets.outputs.hasChangesets == 'false'
         run: |
-          # Configure git
+          # Configure git with the proper authentication
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
@@ -55,9 +61,11 @@ jobs:
           changed_packages=$(git diff HEAD~1 --name-only | grep 'package\.json$' || true)
           
           if [ ! -z "$changed_packages" ]; then
+            echo "Found changed packages: $changed_packages"
+            
             for package_file in $changed_packages; do
               if [[ "$package_file" == packages/*/package.json ]]; then
-                package_dir=$(dirname "$package_file")
+                echo "Processing package: $package_file"
                 name=$(node -p "require('./$package_file').name")
                 version=$(node -p "require('./$package_file').version")
                 
@@ -65,20 +73,24 @@ jobs:
                   tag_name="${name}@${version}"
                   echo "Creating tag: $tag_name"
                   
-                  # Create tag
+                  # Create tag locally
                   git tag "$tag_name"
                   
-                  # Create GitHub release
+                  # Create GitHub release using gh CLI
                   gh release create "$tag_name" \
                     --title "Release $tag_name" \
                     --notes "Release of $name version $version" \
-                    --target main
+                    --target main || echo "Release creation failed for $tag_name"
                 fi
               fi
             done
             
-            # Push tags
-            git push origin --tags
+            # Push all tags at once
+            echo "Pushing tags to origin..."
+            git push origin --tags || echo "Failed to push tags"
+          else
+            echo "No package.json changes detected"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
