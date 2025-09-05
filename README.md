@@ -31,6 +31,18 @@ This Turborepo has some additional tools already setup for you:
 - [TypeScript](https://www.typescriptlang.org/) for static type checking
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
+- [Changesets](https://github.com/changesets/changesets) for version management and GitHub releases
+
+## Versioning and Releases
+
+This private repository uses Changesets for managing versions and creating GitHub releases. See [CHANGESETS.md](./CHANGESETS.md) for detailed documentation.
+
+### Quick start with Changesets
+
+1. Make your changes
+2. Run `yarn changeset` to create a changeset describing your changes
+3. Commit and push your changes
+4. The CI/CD pipeline will handle versioning, tagging, and GitHub releases automatically
 
 ### Build
 
