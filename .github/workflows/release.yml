@@ -57,39 +57,106 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Check for version changes and create tags
-          changed_packages=$(git diff HEAD~1 --name-only | grep 'package\.json$' || true)
+          echo "Checking for version changes..."
+          echo "Current commit: $(git log --oneline -1)"
           
-          if [ ! -z "$changed_packages" ]; then
-            echo "Found changed packages: $changed_packages"
+          # Check if this is a version commit
+          if git log --oneline -1 | grep -q "chore: version packages\|chore.*version"; then
+            echo "This is a version commit, scanning all packages..."
             
-            for package_file in $changed_packages; do
-              if [[ "$package_file" == packages/*/package.json ]]; then
-                echo "Processing package: $package_file"
+            # Scan all packages in packages directory
+            for package_file in packages/*/package.json; do
+              if [ -f "$package_file" ]; then
+                echo "Checking package: $package_file"
                 name=$(node -p "require('./$package_file').name")
                 version=$(node -p "require('./$package_file').version")
                 
+                echo "Package: $name, Version: $version"
+                
                 if [ "$version" != "0.0.0" ]; then
                   tag_name="${name}@${version}"
-                  echo "Creating tag: $tag_name"
                   
-                  # Create tag locally
-                  git tag "$tag_name"
-                  
-                  # Create GitHub release using gh CLI
-                  gh release create "$tag_name" \
-                    --title "Release $tag_name" \
-                    --notes "Release of $name version $version" \
-                    --target main || echo "Release creation failed for $tag_name"
+                  # Check if tag already exists
+                  if git tag -l | grep -q "^$(printf '%s\n' "$tag_name" | sed 's/[[\.*^$()+?{|]/\\&/g')$"; then
+                    echo "Tag $tag_name already exists, skipping..."
+                  else
+                    echo "Creating new tag: $tag_name"
+                    
+                    # Create tag locally
+                    git tag "$tag_name"
+                    
+                    # Create GitHub release using gh CLI
+                    echo "Creating GitHub release for $tag_name"
+                    gh release create "$tag_name" \
+                      --title "Release $tag_name" \
+                      --notes "Release of $name version $version" \
+                      --target main || echo "Release creation failed for $tag_name"
+                    
+                    echo "Tag $tag_name created successfully"
+                  fi
+                else
+                  echo "Skipping $name (version is 0.0.0)"
                 fi
               fi
             done
             
+            # List all local tags before pushing
+            echo "Local tags:"
+            git tag -l
+            
             # Push all tags at once
             echo "Pushing tags to origin..."
-            git push origin --tags || echo "Failed to push tags"
+            git push origin --tags --verbose || echo "Failed to push tags"
+            
+            # Verify tags were pushed
+            echo "Remote tags after push:"
+            git ls-remote --tags origin
           else
-            echo "No package.json changes detected"
+            echo "This is not a version commit, checking for manual package changes..."
+            
+            # Fallback: check for changed package.json files
+            changed_packages=$(git diff HEAD~1 --name-only | grep 'package\.json$' || true)
+            echo "Changed files: $changed_packages"
+            
+            if [ ! -z "$changed_packages" ]; then
+              echo "Found changed packages: $changed_packages"
+              
+              for package_file in $changed_packages; do
+                if [[ "$package_file" == packages/*/package.json ]]; then
+                  echo "Processing package: $package_file"
+                  name=$(node -p "require('./$package_file').name")
+                  version=$(node -p "require('./$package_file').version")
+                  
+                  echo "Package: $name, Version: $version"
+                  
+                  if [ "$version" != "0.0.0" ]; then
+                    tag_name="${name}@${version}"
+                    
+                    # Check if tag already exists
+                    if git tag -l | grep -q "^$(printf '%s\n' "$tag_name" | sed 's/[[\.*^$()+?{|]/\\&/g')$"; then
+                      echo "Tag $tag_name already exists, skipping..."
+                    else
+                      echo "Creating tag: $tag_name"
+                      
+                      # Create tag locally
+                      git tag "$tag_name"
+                      
+                      # Create GitHub release using gh CLI
+                      gh release create "$tag_name" \
+                        --title "Release $tag_name" \
+                        --notes "Release of $name version $version" \
+                        --target main || echo "Release creation failed for $tag_name"
+                    fi
+                  fi
+                fi
+              done
+              
+              # Push all tags at once
+              echo "Pushing tags to origin..."
+              git push origin --tags --verbose || echo "Failed to push tags"
+            else
+              echo "No package.json changes detected"
+            fi
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
