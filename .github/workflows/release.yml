@@ -85,12 +85,32 @@ jobs:
                     # Create tag locally
                     git tag "$tag_name"
                     
-                    # Create GitHub release using gh CLI
-                    echo "Creating GitHub release for $tag_name"
-                    gh release create "$tag_name" \
-                      --title "Release $tag_name" \
-                      --notes "Release of $name version $version" \
-                      --target main || echo "Release creation failed for $tag_name"
+                    # Prepare release assets
+                    package_dir=$(dirname "$package_file")
+                    package_name_safe=$(echo "$name" | sed 's/@//g' | sed 's/\//-/g')
+                    
+                    # Create a tarball of the built package if dist exists
+                    if [ -d "$package_dir/dist" ]; then
+                      echo "Creating release asset for $package_dir/dist"
+                      cd "$package_dir"
+                      tar -czf "../${package_name_safe}-${version}-dist.tar.gz" dist/
+                      cd - > /dev/null
+                      
+                      # Create GitHub release with dist tarball
+                      echo "Creating GitHub release for $tag_name with built assets"
+                      gh release create "$tag_name" \
+                        --title "Release $tag_name" \
+                        --notes "Release of $name version $version. Built artifacts are included as release assets." \
+                        --target main \
+                        "${package_name_safe}-${version}-dist.tar.gz" || echo "Release creation failed for $tag_name"
+                    else
+                      # Create GitHub release without assets
+                      echo "Creating GitHub release for $tag_name (no dist folder found)"
+                      gh release create "$tag_name" \
+                        --title "Release $tag_name" \
+                        --notes "Release of $name version $version" \
+                        --target main || echo "Release creation failed for $tag_name"
+                    fi
                     
                     echo "Tag $tag_name created successfully"
                   fi
@@ -141,11 +161,32 @@ jobs:
                       # Create tag locally
                       git tag "$tag_name"
                       
-                      # Create GitHub release using gh CLI
-                      gh release create "$tag_name" \
-                        --title "Release $tag_name" \
-                        --notes "Release of $name version $version" \
-                        --target main || echo "Release creation failed for $tag_name"
+                      # Prepare release assets for manual changes too
+                      package_dir=$(dirname "$package_file")
+                      package_name_safe=$(echo "$name" | sed 's/@//g' | sed 's/\//-/g')
+                      
+                      # Create a tarball of the built package if dist exists
+                      if [ -d "$package_dir/dist" ]; then
+                        echo "Creating release asset for $package_dir/dist"
+                        cd "$package_dir"
+                        tar -czf "../${package_name_safe}-${version}-dist.tar.gz" dist/
+                        cd - > /dev/null
+                        
+                        # Create GitHub release with dist tarball
+                        echo "Creating GitHub release for $tag_name with built assets"
+                        gh release create "$tag_name" \
+                          --title "Release $tag_name" \
+                          --notes "Release of $name version $version. Built artifacts are included as release assets." \
+                          --target main \
+                          "${package_name_safe}-${version}-dist.tar.gz" || echo "Release creation failed for $tag_name"
+                      else
+                        # Create GitHub release without assets
+                        echo "Creating GitHub release for $tag_name (no dist folder found)"
+                        gh release create "$tag_name" \
+                          --title "Release $tag_name" \
+                          --notes "Release of $name version $version" \
+                          --target main || echo "Release creation failed for $tag_name"
+                      fi
                     fi
                   fi
                 fi
