@@ -92,17 +92,34 @@ jobs:
                     # Create a tarball of the built package if dist exists
                     if [ -d "$package_dir/dist" ]; then
                       echo "Creating release asset for $package_dir/dist"
-                      cd "$package_dir"
-                      tar -czf "../${package_name_safe}-${version}-dist.tar.gz" dist/
-                      cd - > /dev/null
+                      echo "Package directory: $package_dir"
+                      echo "Current working directory: $(pwd)"
                       
-                      # Create GitHub release with dist tarball
-                      echo "Creating GitHub release for $tag_name with built assets"
-                      gh release create "$tag_name" \
-                        --title "Release $tag_name" \
-                        --notes "Release of $name version $version. Built artifacts are included as release assets." \
-                        --target main \
-                        "${package_name_safe}-${version}-dist.tar.gz" || echo "Release creation failed for $tag_name"
+                      # Create tarball in the root directory
+                      tarball_name="${package_name_safe}-${version}-dist.tar.gz"
+                      echo "Creating tarball: $tarball_name"
+                      
+                      tar -czf "$tarball_name" -C "$package_dir" dist/
+                      
+                      # Verify tarball was created
+                      if [ -f "$tarball_name" ]; then
+                        echo "Tarball created successfully: $(ls -la $tarball_name)"
+                        
+                        # Create GitHub release with dist tarball
+                        echo "Creating GitHub release for $tag_name with built assets"
+                        gh release create "$tag_name" \
+                          --title "Release $tag_name" \
+                          --notes "Release of $name version $version. Built artifacts are included as release assets." \
+                          --target main \
+                          "$tarball_name" || echo "Release creation failed for $tag_name"
+                      else
+                        echo "Failed to create tarball $tarball_name"
+                        # Create GitHub release without assets
+                        gh release create "$tag_name" \
+                          --title "Release $tag_name" \
+                          --notes "Release of $name version $version" \
+                          --target main || echo "Release creation failed for $tag_name"
+                      fi
                     else
                       # Create GitHub release without assets
                       echo "Creating GitHub release for $tag_name (no dist folder found)"
@@ -168,17 +185,34 @@ jobs:
                       # Create a tarball of the built package if dist exists
                       if [ -d "$package_dir/dist" ]; then
                         echo "Creating release asset for $package_dir/dist"
-                        cd "$package_dir"
-                        tar -czf "../${package_name_safe}-${version}-dist.tar.gz" dist/
-                        cd - > /dev/null
+                        echo "Package directory: $package_dir"
+                        echo "Current working directory: $(pwd)"
                         
-                        # Create GitHub release with dist tarball
-                        echo "Creating GitHub release for $tag_name with built assets"
-                        gh release create "$tag_name" \
-                          --title "Release $tag_name" \
-                          --notes "Release of $name version $version. Built artifacts are included as release assets." \
-                          --target main \
-                          "${package_name_safe}-${version}-dist.tar.gz" || echo "Release creation failed for $tag_name"
+                        # Create tarball in the root directory
+                        tarball_name="${package_name_safe}-${version}-dist.tar.gz"
+                        echo "Creating tarball: $tarball_name"
+                        
+                        tar -czf "$tarball_name" -C "$package_dir" dist/
+                        
+                        # Verify tarball was created
+                        if [ -f "$tarball_name" ]; then
+                          echo "Tarball created successfully: $(ls -la $tarball_name)"
+                          
+                          # Create GitHub release with dist tarball
+                          echo "Creating GitHub release for $tag_name with built assets"
+                          gh release create "$tag_name" \
+                            --title "Release $tag_name" \
+                            --notes "Release of $name version $version. Built artifacts are included as release assets." \
+                            --target main \
+                            "$tarball_name" || echo "Release creation failed for $tag_name"
+                        else
+                          echo "Failed to create tarball $tarball_name"
+                          # Create GitHub release without assets
+                          gh release create "$tag_name" \
+                            --title "Release $tag_name" \
+                            --notes "Release of $name version $version" \
+                            --target main || echo "Release creation failed for $tag_name"
+                        fi
                       else
                         # Create GitHub release without assets
                         echo "Creating GitHub release for $tag_name (no dist folder found)"
