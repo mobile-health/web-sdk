@@ -1,8 +1,13 @@
 {
   "name": "@web-sdk/shared",
   "version": "0.0.4",
-  "private": true,
   "type": "module",
+  "description": "Shared utilities and constants for web-sdk projects",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/congdcit/web-sdk.git",
+    "directory": "packages/shared"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,11 +28,22 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "keywords": [
+    "web-sdk",
+    "utilities",
+    "shared",
+    "typescript"
+  ],
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",
     "lint": "eslint . --max-warnings 0",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "prepublishOnly": "npm run build",
+    "prepack": "npm run build"
   },
   "devDependencies": {
     "@web-sdk/eslint-config": "*",
