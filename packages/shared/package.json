@@ -35,7 +35,7 @@
     "@types/node": "^22.15.3",
     "eslint": "^9.34.0",
     "typescript": "5.9.2",
-    "vite": "^5.4.2",
+    "vite": "^5.4.20",
     "vite-plugin-dts": "^4.0.3"
   }
 }
