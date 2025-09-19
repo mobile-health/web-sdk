@@ -32,4 +32,5 @@ export interface ErrorDetails {
     message: string;
     field?: string;
 }
+export type Dict = Record<string, unknown>;
 //# sourceMappingURL=types.d.ts.map

@@ -12,3 +12,4 @@
 
 - cd7d12e: Bump shared package to 0.0.5.
 - cd7d12e: Bump shared package to 0.0.6.
+- 7df99ae: Define `Dict` type as Record<string, unknown>.
