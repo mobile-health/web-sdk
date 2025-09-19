@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@web-sdk/ui": "*",
+    "@web-sdk/shared": "*",
     "next": "^15.5.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
