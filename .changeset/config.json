@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
-  "changelog": ["@changesets/changelog-git", { "repo": "congdcit/web-sdk" }],
+  "changelog": ["@changesets/changelog-git", { "repo": "mobile-health/web-sdk" }],
   "commit": true,
   "fixed": [],
   "linked": [],

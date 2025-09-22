@@ -1,11 +1,11 @@
 {
   "name": "@web-sdk/shared",
-  "version": "0.0.5",
+  "version": "0.0.1",
   "type": "module",
   "description": "Shared utilities and constants for web-sdk projects",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/congdcit/web-sdk.git",
+    "url": "git+https://github.com/mobile-health/web-sdk.git",
     "directory": "packages/shared"
   },
   "main": "./dist/index.js",
@@ -43,7 +43,8 @@
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit",
     "prepublishOnly": "npm run build",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "prepare": "vite build"
   },
   "devDependencies": {
     "@web-sdk/eslint-config": "*",
