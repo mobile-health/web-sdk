@@ -36,3 +36,39 @@ jobs:
           publish: yarn changeset tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Determine tags created on this commit
+        id: tags
+        run: |
+          git fetch --tags
+          NEW_TAGS=$(git tag --points-at HEAD | tr '\n' ' ')
+          echo "tags=$NEW_TAGS" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Releases for new tags
+        if: steps.tags.outputs.tags != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for TAG in ${{ steps.tags.outputs.tags }}; do
+            gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --title "$TAG" --notes "Automated release by Changesets"
+          done
+
+      - name: Pack @web-sdk/shared tarball
+        if: contains(steps.tags.outputs.tags, '@web-sdk/shared@')
+        working-directory: packages/shared
+        run: |
+          mkdir -p ../../release-artifacts
+          npm pack --pack-destination ../../release-artifacts
+          ls -la ../../release-artifacts
+
+      - name: Upload tarball to corresponding release
+        if: contains(steps.tags.outputs.tags, '@web-sdk/shared@')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TARBALL=$(ls release-artifacts/web-sdk-shared-*.tgz | head -n 1)
+          for TAG in ${{ steps.tags.outputs.tags }}; do
+            if [[ "$TAG" == @web-sdk/shared@* ]]; then
+              gh release upload "$TAG" "$TARBALL" --clobber
+            fi
+          done
