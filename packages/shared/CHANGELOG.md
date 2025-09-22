@@ -1,5 +1,11 @@
 # @web-sdk/shared
 
+## 1.0.1
+
+### Patch Changes
+
+- ## e241ba3: Patch release for @web-sdk/shared.
+
 ## 1.0.0
 
 ### Major Changes
