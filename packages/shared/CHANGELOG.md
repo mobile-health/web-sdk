@@ -1,5 +1,11 @@
 # @web-sdk/shared
 
+## 0.0.1
+
+### Patch Changes
+
+- 938f284: firt release
+
 ## 2.0.0
 
 ### Major Changes
