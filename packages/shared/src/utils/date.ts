@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { format, isSameWeek, isSameYear, isToday, isYesterday } from 'date-fns';
 import {
   DATE_FORMAT,
   DATE_FORMAT_BE,
@@ -33,7 +32,13 @@ import moment, { Moment, unitOfTime } from 'moment';
 import pluralize from 'pluralize';
 import dayjs, { Dayjs } from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import isTodayPlugin from 'dayjs/plugin/isToday';
+import isYesterdayPlugin from 'dayjs/plugin/isYesterday';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
 dayjs.extend(utc);
+dayjs.extend(isTodayPlugin);
+dayjs.extend(isYesterdayPlugin);
+dayjs.extend(weekOfYear);
 
 export const getUniqueStringByDateTime = (datetime?: DateTimeMomentStringType) => {
   const format = 'MMM_DD_YYYY_HH_mm_ss';
@@ -453,33 +458,35 @@ export const paramsToRange = (from: any, to: any): FilterDateRangeType => {
 };
 
 export const getRelativeDay = (timestamp: number): string => {
-  const date = new Date(timestamp);
-  if (isToday(date)) {
+  const d = dayjs(timestamp);
+  if (!d.isValid()) return '';
+  if (d.isToday()) {
     return 'Today';
-  } else if (isYesterday(date)) {
+  } else if (d.isYesterday()) {
     return 'Yesterday';
-  } else if (!isSameWeek(date, new Date())) {
-    return format(date, 'EEEE'); // Returns the day of the week
-  } else if (!isSameYear(date, new Date())) {
-    return format(date, 'dd MMM yyyy'); // Returns the date in dd MMM format
+  } else if (!d.isSame(dayjs(), 'week')) {
+    return d.format('dddd'); // Returns the day of the week
+  } else if (!d.isSame(dayjs(), 'year')) {
+    return d.format('DD MMM YYYY'); // Returns the date in dd MMM format
   } else {
-    return format(date, 'dd MMM'); // Returns the date in dd MMM format
+    return d.format('DD MMM'); // Returns the date in dd MMM format
   }
 };
 
 export const getRelativeTime = (timestamp: number | string): string => {
   if (!timestamp) return '';
-  const date = new Date(timestamp);
-  if (isToday(date)) {
-    return format(date, 'hh:mm a');
-  } else if (isYesterday(date)) {
+  const d = dayjs(timestamp);
+  if (!d.isValid()) return '';
+  if (d.isToday()) {
+    return d.format('hh:mm a');
+  } else if (d.isYesterday()) {
     return 'Yesterday';
-  } else if (isSameWeek(date, new Date())) {
-    return format(date, 'EEEE');
-  } else if (isSameYear(date, new Date())) {
-    return format(date, 'dd MMM');
+  } else if (d.isSame(dayjs(), 'week')) {
+    return d.format('dddd');
+  } else if (d.isSame(dayjs(), 'year')) {
+    return d.format('DD MMM');
   }
-  return format(date, 'dd MMM yyyy');
+  return d.format('DD MMM YYYY');
 };
 
 export const equalYear = (date1: DateTimeMomentStringType | undefined, targetYear: number) => {
