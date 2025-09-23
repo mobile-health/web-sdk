@@ -1,5 +1,11 @@
 # @web-sdk/shared
 
+## 0.0.2
+
+### Patch Changes
+
+- 6f5ec24: update imports
+
 ## 0.0.1
 
 ### Patch Changes
