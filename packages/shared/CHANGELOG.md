@@ -1,5 +1,11 @@
 # @web-sdk/shared
 
+## 0.0.5
+
+### Patch Changes
+
+- c3f12d2: remove date-fns
+
 ## 0.0.4
 
 ### Patch Changes
