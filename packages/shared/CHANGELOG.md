@@ -1,5 +1,11 @@
 # @web-sdk/shared
 
+## 0.1.0
+
+### Minor Changes
+
+- eebd737: first release
+
 ## 2.0.0
 
 ### Major Changes
