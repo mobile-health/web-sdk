@@ -1,5 +1,11 @@
 # @web-sdk/shared
 
+## 2.0.0
+
+### Major Changes
+
+- 7fa9b95: add date constants, types and utils
+
 ## 1.0.1
 
 ### Patch Changes
