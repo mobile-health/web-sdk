@@ -1,5 +1,11 @@
 # @web-sdk/shared
 
+## 0.0.6
+
+### Patch Changes
+
+- bfb2bd6: add packages/auth + update type for packages/shared
+
 ## 0.0.5
 
 ### Patch Changes
