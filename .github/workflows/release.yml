@@ -53,22 +53,30 @@ jobs:
             gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --title "$TAG" --notes "Automated release by Changesets"
           done
 
-      - name: Pack @web-sdk/shared tarball
-        if: contains(steps.tags.outputs.tags, '@web-sdk/shared@')
-        working-directory: packages/shared
+      - name: Pack tarballs for tagged packages
         run: |
-          mkdir -p ../../release-artifacts
-          npm pack --pack-destination ../../release-artifacts
-          ls -la ../../release-artifacts
+          mkdir -p release-artifacts
+          for PKG_DIR in packages/*; do
+            if [ -f "$PKG_DIR/package.json" ]; then
+              NAME=$(node -p "require('./$PKG_DIR/package.json').name")
+              if [[ "${{ steps.tags.outputs.tags }}" == *"$NAME@"* ]]; then
+                (cd "$PKG_DIR" && npm pack --pack-destination ../../release-artifacts)
+              fi
+            fi
+          done
+          ls -la release-artifacts || true
 
-      - name: Upload tarball to corresponding release
-        if: contains(steps.tags.outputs.tags, '@web-sdk/shared@')
+      - name: Upload tarballs to corresponding releases
+        if: steps.tags.outputs.tags != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TARBALL=$(ls release-artifacts/web-sdk-shared-*.tgz | head -n 1)
           for TAG in ${{ steps.tags.outputs.tags }}; do
-            if [[ "$TAG" == @web-sdk/shared@* ]]; then
+            PKG_NAME="${TAG%@*}"
+            BASE_NAME="${PKG_NAME#@}"
+            BASE_NAME="${BASE_NAME//\//-}"
+            TARBALL=$(ls release-artifacts/${BASE_NAME}-*.tgz 2>/dev/null | head -n 1 || true)
+            if [ -n "$TARBALL" ]; then
               gh release upload "$TAG" "$TARBALL" --clobber
             fi
           done
