@@ -1,5 +1,11 @@
 # @web-sdk/auth
 
+## 0.0.7
+
+### Patch Changes
+
+- 8b3883b: fix bug export
+
 ## 0.0.6
 
 ### Patch Changes
