@@ -1,5 +1,11 @@
 # @web-sdk/auth
 
+## 0.0.5
+
+### Patch Changes
+
+- ecb7a58: update export
+
 ## 0.0.4
 
 ### Patch Changes
