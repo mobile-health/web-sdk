@@ -19,7 +19,7 @@ This Turborepo includes the following packages/apps:
 - `docs`: a [Next.js](https://nextjs.org/) app
 - `web`: another [Next.js](https://nextjs.org/) app
 - `@web-sdk/shared`: Core shared utilities, constants, and helper functions
-- `@web-sdk/ui`: React component library shared by applications  
+- `@web-sdk/ui`: React component library shared by applications
 - `@web-sdk/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `@web-sdk/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
@@ -32,6 +32,7 @@ Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 This repository contains private packages that can be installed in external projects:
 
 #### Quick Install (Recommended)
+
 ```bash
 # Install latest version
 yarn add git+https://github.com/congdcit/web-sdk.git#main:packages/shared
@@ -41,12 +42,14 @@ yarn add git+https://github.com/congdcit/web-sdk.git#@web-sdk/shared@0.0.4:packa
 ```
 
 #### Alternative: Using Install Script
+
 ```bash
 # Using the install script for offline/manual installation
 curl -sSL https://raw.githubusercontent.com/congdcit/web-sdk/main/install-web-sdk.sh | bash
 ```
 
 #### Manual Installation
+
 ```bash
 # Add to package.json dependencies
 {
@@ -60,6 +63,7 @@ yarn install
 ```
 
 #### Usage in Your Project
+
 ```javascript
 import { someFunction } from '@web-sdk/shared';
 import { utilityFunction } from '@web-sdk/shared/utils';

@@ -1,4 +1,4 @@
-import { Moment } from "moment";
+import { Moment } from 'moment';
 
 export type DateTimeMomentStringType = Moment | string | Date | number;
 export type CalendarMode = 'day' | 'week' | 'month';

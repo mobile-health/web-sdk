@@ -2,7 +2,7 @@
 
 This guide outlines the process for contributing code to the `web-sdk` repository. We use **Changesets** to manage versioning and generate changelogs automatically.
 
-Your new responsibility is to create a "changeset" file that declares the *intent* of your change. **You should no longer manually edit the `version` field in `package.json` files.**
+Your new responsibility is to create a "changeset" file that declares the _intent_ of your change. **You should no longer manually edit the `version` field in `package.json` files.**
 
 ---
 
@@ -19,6 +19,7 @@ As usual, implement your features, fix bugs, and write tests in the relevant pac
 After you've finished your code changes, invoke the Changesets command-line tool to add a new changeset.
 
 Run this command at the root of the repository:
+
 ```bash
 yarn changeset
 ```
@@ -52,8 +53,8 @@ git push origin your-feature-branch
 
 ## Quick Checklist ✅
 
--   [ ] Code changes are complete and tested.
--   [ ] A changeset file has been generated to describe the changes.
--   [ ] The new `.changeset/*.md` file is staged along with source code.
--   [ ] A descriptive commit has been created.
--   [ ] The commit has been pushed to the remote repository.
+- [ ] Code changes are complete and tested.
+- [ ] A changeset file has been generated to describe the changes.
+- [ ] The new `.changeset/*.md` file is staged along with source code.
+- [ ] A descriptive commit has been created.
+- [ ] The commit has been pushed to the remote repository.

@@ -25,11 +25,11 @@ This package is part of the monorepo and is automatically linked via workspace d
 ## Usage
 
 ```typescript
-import { formatDate, debounce, User, API_ENDPOINTS } from '@web-sdk/shared'
+import { formatDate, debounce, User, API_ENDPOINTS } from '@web-sdk/shared';
 
 // Use utility functions
-const formattedDate = formatDate(new Date())
-const debouncedFn = debounce(() => console.log('Hello'), 300)
+const formattedDate = formatDate(new Date());
+const debouncedFn = debounce(() => console.log('Hello'), 300);
 
 // Use types
 const user: User = {
@@ -37,11 +37,11 @@ const user: User = {
   name: 'John Doe',
   email: 'john@example.com',
   createdAt: new Date(),
-  updatedAt: new Date()
-}
+  updatedAt: new Date(),
+};
 
 // Use constants
-const endpoint = API_ENDPOINTS.USERS
+const endpoint = API_ENDPOINTS.USERS;
 ```
 
 ## Development

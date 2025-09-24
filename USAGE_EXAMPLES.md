@@ -8,8 +8,8 @@ We will use the **`shared`** package as an example.
 
 ## Prerequisites
 
-* A command-line terminal.
-* Node.js and a package manager like **Yarn** or **npm** installed in your project.
+- A command-line terminal.
+- Node.js and a package manager like **Yarn** or **npm** installed in your project.
 
 ---
 
@@ -29,16 +29,19 @@ For example, to install version `1.5.0` of the **`shared`** package, you would u
 We recommend using the GitHub shorthand with a subpath so the package manager installs from the `packages/shared` folder.
 
 Pin to a specific tag (recommended for reproducibility):
+
 ```bash
 yarn add @web-sdk/shared@github:mobile-health/web-sdk#@web-sdk/shared@1.5.0:packages/shared
 ```
 
 Track `main` (latest on default branch):
+
 ```bash
 yarn add @web-sdk/shared@github:mobile-health/web-sdk#main:packages/shared
 ```
 
 Alternatively, add directly to your `package.json`:
+
 ```json
 {
   "dependencies": {

@@ -1,8 +1,8 @@
 // Application constants
 export const API_ENDPOINTS = {
-  USERS: "/api/users",
-  AUTH: "/api/auth",
-  HEALTH: "/api/health",
+  USERS: '/api/users',
+  AUTH: '/api/auth',
+  HEALTH: '/api/health',
 } as const;
 
 export const HTTP_STATUS = {
@@ -16,9 +16,9 @@ export const HTTP_STATUS = {
 } as const;
 
 export const THEMES = {
-  LIGHT: "light",
-  DARK: "dark",
-  SYSTEM: "system",
+  LIGHT: 'light',
+  DARK: 'dark',
+  SYSTEM: 'system',
 } as const;
 
 export const PAGINATION_DEFAULTS = {
@@ -35,9 +35,9 @@ export const VALIDATION_RULES = {
 
 // Date Format Constants
 export const DATE_FORMATS = {
-  DATE_ONLY: "YYYY-MM-DD",
-  DATETIME: "YYYY-MM-DD HH:mm:ss",
-  TIME_ONLY: "HH:mm:ss",
-  DISPLAY_DATE: "DD/MM/YYYY",
-  DISPLAY_DATETIME: "DD/MM/YYYY HH:mm",
+  DATE_ONLY: 'YYYY-MM-DD',
+  DATETIME: 'YYYY-MM-DD HH:mm:ss',
+  TIME_ONLY: 'HH:mm:ss',
+  DISPLAY_DATE: 'DD/MM/YYYY',
+  DISPLAY_DATETIME: 'DD/MM/YYYY HH:mm',
 } as const;

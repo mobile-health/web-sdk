@@ -10,13 +10,13 @@ Think of it like a logbook for a ship. As developers add new cargo (features and
 
 For any project with more than one package or more than one developer, Changesets solves several common problems.
 
-* **Automated Versioning**: It eliminates the guesswork of which version number to use. Developers simply state the *significance* of their change (**patch**, **minor**, or **major**), and Changesets automatically calculates the correct next version for each package.
+- **Automated Versioning**: It eliminates the guesswork of which version number to use. Developers simply state the _significance_ of their change (**patch**, **minor**, or **major**), and Changesets automatically calculates the correct next version for each package.
 
-* **Automatic Changelogs**: It uses the summaries provided by developers to generate clean, professional `CHANGELOG.md` files for every release. This ensures changes are always well-documented.
+- **Automatic Changelogs**: It uses the summaries provided by developers to generate clean, professional `CHANGELOG.md` files for every release. This ensures changes are always well-documented.
 
-* **Handles Monorepo Dependencies**: If you have a `ui` package that depends on a `shared` package, Changesets automatically updates the `ui` package to use the new version of `shared` when it's released.
+- **Handles Monorepo Dependencies**: If you have a `ui` package that depends on a `shared` package, Changesets automatically updates the `ui` package to use the new version of `shared` when it's released.
 
-* **Improves Collaboration**: It separates the act of writing code from the act of releasing. Multiple developers can contribute changes, and the tool bundles all their work into a single, cohesive release, often through a "Version Packages" pull request that can be reviewed by the team.
+- **Improves Collaboration**: It separates the act of writing code from the act of releasing. Multiple developers can contribute changes, and the tool bundles all their work into a single, cohesive release, often through a "Version Packages" pull request that can be reviewed by the team.
 
 ---
 
@@ -27,18 +27,20 @@ The Changesets process can be broken down into three main stages.
 ### 1. Adding a Changeset
 
 After a developer finishes their code changes, they run a command to add a "changeset." This is a small markdown file that documents their work. The command prompts them for:
-* **Which packages** were affected.
-* The **severity** of the change for each package (`patch`, `minor`, `major`).
-* A **summary** of the change for the changelog.
+
+- **Which packages** were affected.
+- The **severity** of the change for each package (`patch`, `minor`, `major`).
+- A **summary** of the change for the changelog.
 
 This small file is then committed along with the source code.
 
 ### 2. Versioning the Packages
 
 When it's time to prepare a release, a command is run (usually by a CI bot) that "consumes" all the pending changeset files. This command:
-* Bumps the version numbers in the `package.json` files of the affected packages.
-* Updates the `CHANGELOG.md` files with the summaries.
-* Deletes the changeset files it just used.
+
+- Bumps the version numbers in the `package.json` files of the affected packages.
+- Updates the `CHANGELOG.md` files with the summaries.
+- Deletes the changeset files it just used.
 
 This process typically results in a commit and a pull request named **"Version Packages"**.
 
