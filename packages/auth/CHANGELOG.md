@@ -1,5 +1,11 @@
 # @web-sdk/auth
 
+## 0.0.8
+
+### Patch Changes
+
+- cac16a6: fix bug import in consumer project
+
 ## 0.0.7
 
 ### Patch Changes
