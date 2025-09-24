@@ -12,13 +12,16 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: {
+        index: resolve(__dirname, 'src/index.ts'),
+        react: resolve(__dirname, 'src/react.ts'),
+      },
       name: 'RepoShared',
       formats: ['es'],
-      fileName: 'index',
+      fileName: (format, entryName) => entryName,
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      external: ['react', 'react-dom', '@tanstack/react-query'],
       output: {
         globals: {
           react: 'React',
