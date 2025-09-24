@@ -1,5 +1,11 @@
 # @web-sdk/auth
 
+## 0.0.4
+
+### Patch Changes
+
+- 2ea23c6: separate hooks import
+
 ## 0.0.3
 
 ### Patch Changes
