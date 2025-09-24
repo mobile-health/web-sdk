@@ -1,6 +1,6 @@
 {
   "name": "@web-sdk/auth",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "description": "Auth utilities and constants for web-sdk projects",
   "repository": {

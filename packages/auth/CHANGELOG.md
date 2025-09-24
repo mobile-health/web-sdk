@@ -1,5 +1,11 @@
 # @web-sdk/auth
 
+## 0.0.2
+
+### Patch Changes
+
+- 82895ee: pack tarball for any package release
+
 ## 0.0.1
 
 ### Patch Changes
