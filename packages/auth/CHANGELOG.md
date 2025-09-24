@@ -1,5 +1,11 @@
 # @web-sdk/auth
 
+## 0.0.6
+
+### Patch Changes
+
+- d275b12: fix exports
+
 ## 0.0.5
 
 ### Patch Changes
