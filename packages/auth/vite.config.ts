@@ -18,7 +18,7 @@ export default defineConfig({
       },
       name: 'RepoShared',
       formats: ['es'],
-      fileName: (format, entryName) => entryName,
+      fileName: (format, entryName) => `${entryName}.js`,
     },
     rollupOptions: {
       external: ['react', 'react-dom', '@tanstack/react-query'],
