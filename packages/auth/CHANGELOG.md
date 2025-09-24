@@ -1,5 +1,11 @@
 # @web-sdk/auth
 
+## 0.0.3
+
+### Patch Changes
+
+- 42221de: update package.json for peerDependencies
+
 ## 0.0.2
 
 ### Patch Changes
