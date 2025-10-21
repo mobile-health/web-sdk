@@ -53,7 +53,7 @@
     "@web-sdk/typescript-config": "*",
     "eslint": "^9.34.0",
     "typescript": "5.9.2",
-    "vite": "^5.4.2",
+    "vite": "^5.4.21",
     "vite-plugin-dts": "^4.0.3"
   },
   "dependencies": {
