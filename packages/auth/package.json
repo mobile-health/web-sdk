@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "@simplewebauthn/browser": "^13.2.0",
-    "axios": "^1.12.2",
+    "axios": "^1.13.5",
     "ua-parser-js": "^2.0.5"
   },
   "peerDependencies": {
